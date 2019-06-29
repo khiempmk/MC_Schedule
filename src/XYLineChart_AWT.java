@@ -16,7 +16,7 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 public class XYLineChart_AWT extends ApplicationFrame {
 
-    public XYLineChart_AWT( String applicationTitle, String chartTitle,int[] b, int numRequest, float[] posX, float[] posY ) {
+    public XYLineChart_AWT( String applicationTitle, String chartTitle,int[] b, int numRequest, double[] posX, double[] posY ) {
         super(applicationTitle);
         JFreeChart xylineChart = ChartFactory.createXYLineChart(chartTitle , "" , "" , createDataset(b,numRequest,posX,posY) ,
                 PlotOrientation.VERTICAL , true , true , false);
@@ -37,7 +37,7 @@ public class XYLineChart_AWT extends ApplicationFrame {
         setContentPane( chartPanel );
     }
 
-    private XYDataset createDataset(int[] b, int numRequest, float[] posX , float[] posY ) {
+    private XYDataset createDataset(int[] b, int numRequest, double[] posX , double[] posY ) {
 
         final XYSeriesCollection dataset = new XYSeriesCollection( );
         //XYSeries []path = new XYSeries[numRequest];

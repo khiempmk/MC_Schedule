@@ -9,56 +9,56 @@ public class Main {
     //------------- Read - Input ----------------\\
     static int numRequest ;  // So luong request
     static int numAgent =100 ;    // So luong agent
-   // static float consumeRate = (float) 0.001 ;
-    static float thres = (float)1600;
-    static float eMax = 8000 ;
-    static float eMin = 540 ;
-    static float chargRate = (float) 60;
-    static int tMax =2000  ;
-    static float Go = 100;
-    static float beta =20 ;
-    static float V = 10 ;
-    static float [][] travelTime  ;
-    static float [][] agents ;
-    static float [] fitness = new float [numAgent] ;
-    static float [][] v ;
-    static float[] posX,  posY ;
-    static float[] p_i ;
+   // static double consumeRate = (double) 0.001 ;
+    static double thres = (double)1600;
+    static double eMax = 8000 ;
+    static double eMin = 540 ;
+    static double chargRate = (double) 60;
+    static int tMax =20000  ;
+    static double Go = 100;
+    static double beta =20 ;
+    static double V = 10 ;
+    static double [][] travelTime  ;
+    static double [][] agents ;
+    static double [] fitness = new double [numAgent] ;
+    static double [][] v ;
+    static double[] posX,  posY ;
+    static double[] p_i ;
     static int [] sensor = new int [11];
     static boolean [] free = new boolean [11];
     static int [] schedule = new int[11];
-    static float currentTotal = 1000000000;
+    static double currentTotal = 1000000000;
     public static void readinput()
     {
         File fi = new File("C:\\Users\\T470S\\IdeaProjects\\ScheduleMC\\src\\data.inp");
         try{
         Scanner input = new Scanner(fi);
         numRequest = input.nextInt();
-        travelTime = new float[numRequest+1][numRequest+1];
-        agents     = new float[numAgent][numRequest+1];
-        v          = new float[numAgent][numRequest+1] ;
-        posX = new float[numRequest+1];
-        posY = new float[numRequest+1];
-        p_i = new float[numRequest+1];
-        //dis        = new float[numRequest][numRequest];
+        travelTime = new double[numRequest+1][numRequest+1];
+        agents     = new double[numAgent][numRequest+1];
+        v          = new double[numAgent][numRequest+1] ;
+        posX = new double[numRequest+1];
+        posY = new double[numRequest+1];
+        p_i = new double[numRequest+1];
+        //dis        = new double[numRequest][numRequest];
         //numAgent = input.nextInt() ;
-        //consumeRate = input.nextFloat() ;
-        // thres = input.nextFloat();
-        // eMax = input.nextFloat() ;
-        //chargRate = input.nextFloat() ;
+        //consumeRate = input.nextdouble() ;
+        // thres = input.nextdouble();
+        // eMax = input.nextdouble() ;
+        //chargRate = input.nextdouble() ;
         //tMax = input.nextInt();
-        float temp ;
+        double temp ;
         for (int i =1 ; i <= numRequest ; i++)
         {
-            posX[i] = input.nextFloat();
-            posY[i] = input.nextFloat();
-            p_i[i] = input.nextFloat() ;
-            temp = input.nextFloat();
+            posX[i] = input.nextDouble();
+            posY[i] = input.nextDouble();
+            p_i[i] = input.nextDouble() ;
+            temp = input.nextDouble();
         }
         posX[0]= posY[0] = 0 ;
         for (int i = 0; i <= numRequest; i++)
             for (int j = 0; j <= numRequest; j++)
-                travelTime[i][j] = (float) Math.sqrt(Math.pow(posX[i]-posX[j],2)+ Math.pow(posY[i]- posY[j],2));
+                travelTime[i][j] = (double) Math.sqrt(Math.pow(posX[i]-posX[j],2)+ Math.pow(posY[i]- posY[j],2));
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         }
@@ -70,11 +70,11 @@ public class Main {
 
         GSA gsa = new GSA();
         gsa.init(agents,numAgent, numRequest);
-        float gFit = Float.MAX_VALUE ;
-        float [] gBest = new float[numRequest];
+        double gFit = Double.MAX_VALUE ;
+        double [] gBest = new double[numRequest];
         int best , worst;
-        float G ;
-        float[] M = new float[numAgent];
+        double G ;
+        double[] M = new double[numAgent];
         for (int iTime = 1 ; iTime <= tMax ; iTime++)
         {
             best = worst = 0 ;
@@ -96,9 +96,9 @@ public class Main {
                     gBest[i] = agents[best][i];
             }
             // compute G
-            G = Go* (float)Math.exp(-beta/tMax *iTime );
+            G = Go* (double)Math.exp(-beta/tMax *iTime );
             // compute M
-            float sumM = 0 ;
+            double sumM = 0 ;
             for (int i = 0; i < numAgent ; i++)
             {
                 M[i] = (fitness[i] - fitness[worst]) / (fitness[best] - fitness[worst]);
@@ -120,14 +120,14 @@ public class Main {
     public static void GA_process()
     {
         int nHeap = 0;
-        float temp = 0 ;
+        double temp = 0 ;
         int[] heap = new int [numAgent+1];
         GSA gsa = new GSA();
         gsa.init(agents,numAgent, numRequest);
         Random rd = new Random();
         GA ga = new GA();
-        float gFit = Float.MAX_VALUE ;
-        float [] gBest = new float[numRequest];
+        double gFit = Double.MAX_VALUE;
+        double [] gBest = new double[numRequest];
         for (int i = 0 ; i < numAgent ; i++)
         {
             fitness[i] = gsa.fitness(agents[i], travelTime, numRequest, p_i, thres, eMax,eMin ,chargRate);
@@ -140,16 +140,16 @@ public class Main {
                 gBest = agents[i];
             }
         }
-        float[] childA= new float[numRequest];
-        float[] childB= new float[numRequest];
-        float CROS_THRES = (float) 0.15 ;
+        double[] childA= new double[numRequest];
+        double[] childB= new double[numRequest];
+        double CROS_THRES = (double) 0.15 ;
         int i, j ,worst ;
-        float fitA, fitB ;
+        double fitA, fitB ;
         int count = 0 ;
         for (int ii = 1; ii < tMax ;ii ++) {
             //System.out.printf("%d\n",ii);
             count++ ;
-            temp = rd.nextFloat();
+            temp = rd.nextDouble();
             if (temp < 0.8) {
                 i = rd.nextInt(numRequest);
                 j = rd.nextInt(numRequest);
@@ -203,8 +203,8 @@ public class Main {
                 ga.downheap(i, nHeap, fitness, heap);
                 //System.out.printf("....\n");
             }
-            if (count >= 15 ) CROS_THRES = (float)0.8 ;
-            else CROS_THRES = (float) 0.15;
+            if (count >= 15 ) CROS_THRES = (double)0.8 ;
+            else CROS_THRES = (double) 0.15;
         }
         System.out.printf("\nFitness = %f\n", gFit);
         gsa.printkq(gBest,numRequest, posX, posY);
@@ -213,7 +213,7 @@ public class Main {
         if (i > numRequest) {
 
            Working work = new Working();
-            float total = work.loop_Working(sensor, travelTime, numRequest, p_i, thres, eMax,eMin ,chargRate);
+            double total = work.loop_Working(sensor, travelTime, numRequest, p_i, thres, eMax,eMin ,chargRate);
             //System.out.print(total);
             if (total < currentTotal) {
                 currentTotal = total;
@@ -249,10 +249,70 @@ public class Main {
         RefineryUtilities.centerFrameOnScreen( chart );
         chart.setVisible( true );
     }
+
+    public static void CS_process()
+    {
+         double Lamda  = 1.5;
+         double Anpha  = 0.1 ;   // step _ size
+         double p_a = 0.2 ;   // xac xuat phat hien trung la
+        GSA gsa = new GSA() ;
+        gsa.init(agents,numAgent,numRequest) ;
+        double[] best = new double[ numRequest];
+        double gBest = Double.MAX_VALUE ;
+        for (int i = 0 ; i < numAgent ; i++) {
+            fitness[i] = gsa.fitness(agents[i],travelTime,numRequest,p_i,thres,eMax, eMin, chargRate);
+            if (fitness[i] < gBest) {
+                gBest = fitness[i] ;
+                best =  agents[i];
+            }
+        }
+        double [] cuckooEgg = new double[ numRequest];
+        double cuckooEggFitness ;
+        CS Cs = new CS();
+        Random rd = new Random();
+        int k;
+        double rds ;
+        for (int ii = 0 ; ii < tMax ; ii ++)
+        {
+            // Get cuckoo egg by levy distribution
+            Cs.Levy(Lamda,numRequest,Anpha, cuckooEgg);
+            cuckooEggFitness = gsa.fitness(cuckooEgg,travelTime,numRequest,p_i,thres,eMax,eMin,chargRate);
+            // get a random nest k
+            k = rd.nextInt(numAgent) ;
+
+            if (fitness[k] > cuckooEggFitness){
+                agents[k] = cuckooEgg ;
+                fitness[k] = cuckooEggFitness ;
+                if (fitness[k] < gBest ) {
+                    gBest = fitness[k] ;
+                    best = agents[k] ;
+                }
+            }
+            // phat hien trung la
+
+            for (int i = 0 ; i < numAgent ; i++){
+                rds = rd.nextDouble() ;
+                if (rds < p_a)
+                {
+                    // new nest will be build
+                    Cs.rebuild(agents[i],numRequest);
+                    fitness[i] = gsa.fitness(agents[i],travelTime,numRequest,p_i,thres,eMax,eMin,chargRate);
+                    if (fitness[i] < gBest ) {
+                        gBest = fitness[i] ;
+                        best = agents[i] ;
+                    }
+                }
+            }
+
+        }
+        System.out.printf("\nFitness = %f\n", gBest);
+        gsa.printkq(best,numRequest, posX, posY);
+    }
     public static void main(String[] args) {
         readinput();
      //GSA_process();
-      //  GA_process();
-        loop_Process();
+      // GA_process();
+        //loop_Process();
+       CS_process();
     }
 }

@@ -1,6 +1,6 @@
 import java.util.Random;
 public class GA {
-    public static void upheap( int[] heap, float [] d ,int c)
+    public static void upheap( int[] heap, double [] d ,int c)
     {
         int p, tg;
         while (c > 1 )
@@ -13,7 +13,7 @@ public class GA {
             c = p ;
         }
     }
-    public static void downheap(int p , int nheap ,float[] d , int[] heap)
+    public static void downheap(int p , int nheap ,double[] d , int[] heap)
     {
         int c;
         int tg;
@@ -28,12 +28,12 @@ public class GA {
             p = c;
         }
     }
-    public static void CROSSOVER(float[][] agents, int A , int B, int numberRequest,float[] childA ,float[] childB)
+    public static void CROSSOVER(double[][] agents, int A , int B, int numberRequest,double[] childA ,double[] childB)
     {
         Random rd = new Random();
         int temp = rd.nextInt(numberRequest);
-       // float [] childA = new float[numberRequest];
-       // float [] childB = new float[numberRequest];
+       // double [] childA = new double[numberRequest];
+       // double [] childB = new double[numberRequest];
         for (int i = 0 ; i < temp ; i++)
         {
             childA[i] = agents[A][i];
@@ -44,11 +44,11 @@ public class GA {
             childA[i] = agents[B][i];
         }
     }
-    public static void MUTATION(float[] agents, int numRequest)
+    public static void MUTATION(double[] agents, int numRequest)
     {
         Random rd = new Random();
         int temp ;
-        float temp1;
+        double temp1;
         for (int i = 0 ; i < numRequest/2 ; i++)
         {
             temp = rd.nextInt(2);

@@ -1,11 +1,11 @@
 public class Working {
 
-    public static float loop_Working(int[] b,float[][] travelTime, int numRequest, float[] p_i, float thres, float eMax, float eMin, float chargRate) {
+    public static double loop_Working(int[] b,double[][] travelTime, int numRequest, double[] p_i, double thres, double eMax, double eMin, double chargRate) {
 
-        float[] tTime = new float[numRequest+2];
-        float[] cTime = new float[numRequest+2];
-        float[] wTime = new float[numRequest+2];
-        //float eRemain,totalTime;
+        double[] tTime = new double[numRequest+2];
+        double[] cTime = new double[numRequest+2];
+        double[] wTime = new double[numRequest+2];
+        //double eRemain,totalTime;
 
         /* totalTime = 0;
         tTime[0] = cTime[0] = wTime[0] = 0;
@@ -20,7 +20,7 @@ public class Working {
         }
 
         return totalTime;*/
-        float eRemain;
+        double eRemain;
         int numDie = 0 ;
         int numNextDie = 0 ;
         b[0] = 0;
@@ -39,7 +39,7 @@ public class Working {
             //  fit += (wTime[i]  + tTime[i]) / numRequest;
         }
         wTime[numRequest+1] = wTime[numRequest]+ cTime[numRequest]+ tTime[numRequest] ;
-        float trvTime = wTime[numRequest+1] + travelTime[b[numRequest]][b[0]];
+        double trvTime = wTime[numRequest+1] + travelTime[b[numRequest]][b[0]];
 
         for (int i= 1; i <= numRequest ;i++)
             if (trvTime + travelTime[b[0]][b[i]] - wTime[i+1] >  ((eMax - eMin) / p_i[b[i]]) )
